@@ -1,0 +1,7 @@
+db:
+
+   host: "localhost"
+   user: "Ashok_DataBase"
+   port: "1433"
+   password: "3139"
+   database: "Chanti"

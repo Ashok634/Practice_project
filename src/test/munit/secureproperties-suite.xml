@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:munit="http://www.mulesoft.org/schema/mule/munit" xmlns:munit-tools="http://www.mulesoft.org/schema/mule/munit-tools"
+	xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
+	xsi:schemaLocation="
+		http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+		http://www.mulesoft.org/schema/mule/munit http://www.mulesoft.org/schema/mule/munit/current/mule-munit.xsd
+		http://www.mulesoft.org/schema/mule/munit-tools  http://www.mulesoft.org/schema/mule/munit-tools/current/mule-munit-tools.xsd">
+	<munit:config name="secureproperties-suite.xml" />
+	<munit:test name="securepropertiesFlow1-test" doc:id="2def722f-4166-4017-a22f-c7237f3a9568" >
+		<munit:behavior >
+			<munit:set-event doc:name="Set Input" doc:id="518a58c9-c99d-437b-ba25-519c317de4e8" >
+				<munit:payload value="#[readUrl('classpath://securepropertiesFlow1test\set-event_payload.dwl')]" encoding="UTF-8" />
+				<munit:attributes value="#[readUrl('classpath://securepropertiesFlow1test\set-event_attributes.dwl')]" />
+			</munit:set-event>
+		</munit:behavior>
+		<munit:execution >
+			<flow-ref doc:name="Flow-ref to securepropertiesFlow1" doc:id="1cecc1d0-47f2-4303-a775-e863e14aa7de" name="securepropertiesFlow1"/>
+		</munit:execution>
+		<munit:validation >
+			<munit-tools:assert doc:name="Assert payload" doc:id="e45ddeb5-e71c-4aae-995d-bbf7e0d8fb85" message="The payload does not match">
+				<munit-tools:that ><![CDATA[#[%dw 2.0
+import securepropertiesFlow1test::assert_expression_payload
+---
+assert_expression_payload::main({payload: payload, attributes: attributes, vars: vars})]]]></munit-tools:that>
+			</munit-tools:assert>
+		</munit:validation>
+	</munit:test>
+	<munit:test name="securepropertiesFlow1-test1" doc:id="3538deac-196c-45e6-b934-a13600b7157d" >
+		<munit:behavior >
+			<munit:set-event doc:name="Set Input" doc:id="d5c00653-ba81-410b-8cc1-22558b81c3e7" >
+				<munit:payload value="#[readUrl('classpath://securepropertiesFlow1test1\set-event_payload.dwl')]" encoding="UTF-8" />
+				<munit:attributes value="#[readUrl('classpath://securepropertiesFlow1test1\set-event_attributes.dwl')]" />
+			</munit:set-event>
+		</munit:behavior>
+		<munit:execution >
+			<flow-ref doc:name="Flow-ref to securepropertiesFlow1" doc:id="6986eade-aa6e-4034-add3-d2e8b911e74d" name="securepropertiesFlow1"/>
+		</munit:execution>
+		<munit:validation >
+			<munit-tools:assert doc:name="Assert payload" doc:id="537935f2-5392-4d0a-8569-79d97b243002" message="The payload does not match">
+				<munit-tools:that ><![CDATA[#[%dw 2.0
+import securepropertiesFlow1test1::assert_expression_payload
+---
+assert_expression_payload::main({payload: payload, attributes: attributes, vars: vars})]]]></munit-tools:that>
+			</munit-tools:assert>
+		</munit:validation>
+	</munit:test>
+
+
+</mule>

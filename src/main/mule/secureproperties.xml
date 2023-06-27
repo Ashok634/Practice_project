@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core" xmlns:file="http://www.mulesoft.org/schema/mule/file"
+	xmlns:http="http://www.mulesoft.org/schema/mule/http"
+	xmlns:db="http://www.mulesoft.org/schema/mule/db" xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/db http://www.mulesoft.org/schema/mule/db/current/mule-db.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd
+http://www.mulesoft.org/schema/mule/file http://www.mulesoft.org/schema/mule/file/current/mule-file.xsd
+http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd">
+	<http:listener-config name="HTTP_Listener_config" doc:name="HTTP Listener config" doc:id="42586097-a413-4df5-a79b-e32a0589097e" >
+		<http:listener-connection host="localhost" port="8082" readTimeout="0"/>
+	</http:listener-config>
+	<file:config name="File_Config" doc:name="File Config" doc:id="02cf6e3a-6613-47c9-8215-3607716cad4e" />
+	<flow name="securepropertiesFlow1" doc:id="728ebee0-aedf-4f82-9066-5b7ea8a33c26" >
+		<http:listener doc:name="Listener" doc:id="31104d38-f46c-4a99-8d9c-6a74ffeb3ff0" config-ref="HTTP_Listener_config" path="/file"/>
+		<logger level="INFO" doc:name="Logger" doc:id="a76a02b0-0f7c-4bae-8700-b1df25f5337b" message="#[payload]"/>
+		<file:read doc:id="31162adc-7f1c-4892-8dbf-4b2081c91ffc" config-ref="File_Config" path="D:\Details.docx"/>
+		<ee:transform doc:name="Transform Message" doc:id="cbe2d25e-1a4a-40e3-8626-24c2b340af43" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+---
+payload]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+		<logger level="INFO" doc:name="Logger" doc:id="4558d77a-8877-462c-95ab-f3b7165ebaaa" message="#[payload]"/>
+		<file:write doc:name="Write" doc:id="0c3a8305-9593-4fc8-8370-d359c22f8114" path="F:\output/mu.txt"/>
+	</flow>
+</mule>
